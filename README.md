@@ -1,3 +1,5 @@
+# Raspberry Pi Audio Receiver Install - Home Version
+
 #Changes
 * Use of External Soundcards
 * soxr interpolation with shairport-sync, works well on Raspberry Pi Zero and Raspberry Pi 3, haven't tested on any other boards yet.
