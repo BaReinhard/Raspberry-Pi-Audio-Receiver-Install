@@ -16,7 +16,7 @@ For the time being, I have not been able to get espeak to work with a soundcard.
 ```
 sudo apt-get install git
 git clone https://github.com/BaReinhard/Raspberry-Pi-Audio-Receiver-Install.git
-cd Rasp*
+cd Raspberry-Pi-Audio-Receiver-Install
 sudo ./runall.sh
 ```
 
