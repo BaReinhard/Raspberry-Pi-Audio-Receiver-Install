@@ -25,5 +25,6 @@ patch /etc/default/kodi << EOT
 EOT
 
 usermod -a -G input kodi
+echo gpu_mem=256 >> /boot/config.txt
 
 exit 0
