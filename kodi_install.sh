@@ -24,5 +24,6 @@ patch /etc/default/kodi << EOT
 
 EOT
 
+usermod -a -G input kodi
 
 exit 0
