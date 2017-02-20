@@ -9,8 +9,14 @@ function tst {
     fi	
 }
 #--------------------------------------------------------------------
+cat << EOT >>/boot/config.txt
+# Enabled Lirc
+dtoverlay=lirc-rpi
+dtparam=gpio_in_pin=24
+dtparam=gpio_out_pin=17
 
-cat << EOT > /etc/lircd.conf
+EOT
+cat << EOT > /etc/lirc/lircd.conf
 
 # Please make this file available to others
 # by sending it to <lirc@bartelmus.de>
@@ -100,7 +106,7 @@ LIRCD_CONF="/etc/lirc/lircd.conf"
 LIRCMD_CONF=""
 EOT
 
-cat << EOT > /home/kodi/.kodi/userdata/Lircmap.xml
+cat << EOT > /home/pi/Lircmap.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This file contains the mapping of LIRC keys to XBMC keys used in Keymap.xml  -->
 <!--                                                                              -->
@@ -113,7 +119,7 @@ cat << EOT > /home/kodi/.kodi/userdata/Lircmap.xml
 <!-- For a list of XBMC_COMMAND's check out the <remote> sections of keymap.xml   -->
 
 <lircmap>
-	<remote device="lircd.conf.conf">
+	<remote device="matricom">
 		<left>KEY_LEFT</left>
 		<right>KEY_RIGHT</right>
 		<up>KEY_UP</up>
@@ -172,6 +178,39 @@ cat << EOT > /home/kodi/.kodi/userdata/Lircmap.xml
 	</remote>
 </lircmap>
 EOT
+cat <<EOT >/etc/rc.local
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# Print the IP address
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+fi
+/home/pi/shScripts/firstrun.sh&
+exit 0
+EOT
+chmod +x /etc/rc.local
+cat <<EOT >/home/pi/shScripts/firstrun.sh
+#!/bin/bash
+cp /home/pi/Lircmap.xml /home/kodi/.kodi/userdata/Lircmap.xml
+rm /home/pi/shScripts/firstrun.sh
+touch /home/pi/shScripts/firstrun.sh
+echo "#!/bin/bash" >> /home/pi/shScripts/firstrun.sh
+echo "exit 0" >> /home/pishScripts/firstrun.sh
+reboot
+EOT
+chmod +x /home/pi/shScirpts/firstrun.sh
 
 
 exit 0
